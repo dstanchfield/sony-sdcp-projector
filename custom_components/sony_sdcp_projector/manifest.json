@@ -1,0 +1,16 @@
+{
+  "domain": "sony_sdcp_projector",
+  "name": "Sony SDCP Projector",
+  "codeowners": [
+    "@dstanchfield"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/dstanchfield/sony-sdcp-projector",
+  "issue_tracker": "https://github.com/dstanchfield/sony-sdcp-projector/issues",
+  "iot_class": "local_polling",
+  "requirements": [
+    "git+https://github.com/Galala7/pySDCP@a6a1d55#pysdcp==1"
+  ],
+  "version": "1.0.0"
+}

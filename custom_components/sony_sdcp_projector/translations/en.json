@@ -1,0 +1,28 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Device is already configured"
+        },
+        "error": {
+            "invalid_host": "Invalid hostname or IP address"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "host": "Host"
+                },
+                "data_description": {
+                    "host": "The hostname or IP address of the Sony Bravia TV to control."
+                },
+                "description": "Ensure that your projector has SDCP (PJ Talk) enabled."
+            }
+        }
+    },
+    "entity": {
+        "button": {
+            "terminate_apps": {
+                "name": "Terminate apps"
+            }
+        }
+    }
+}

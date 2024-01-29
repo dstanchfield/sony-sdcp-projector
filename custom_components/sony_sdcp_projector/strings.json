@@ -1,0 +1,28 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "description": "Ensure that your projector has SDCP (PJ Talk) enabled.",
+        "data": {
+          "host": "[%key:common::config_flow::data::host%]"
+        },
+        "data_description": {
+          "host": "The hostname or IP address of the Sony Bravia TV to control."
+        }
+      }
+    },
+    "error": {
+      "invalid_host": "[%key:common::config_flow::error::invalid_host%]"
+    },
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+    }
+  },
+  "entity": {
+    "button": {
+      "terminate_apps": {
+        "name": "Terminate apps"
+      }
+    }
+  }
+}
