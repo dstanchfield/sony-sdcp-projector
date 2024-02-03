@@ -1,4 +1,5 @@
 """Constants for the Sony SDCP Projector integration."""
+
 from typing import Final
 
 DOMAIN: Final = "sony_sdcp_projector"

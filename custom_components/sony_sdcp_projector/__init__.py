@@ -1,11 +1,9 @@
 """The Sony SDCP Projector integration."""
+
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import (
-    Platform,
-    CONF_HOST
-)
+from homeassistant.const import Platform, CONF_HOST
 from homeassistant.core import HomeAssistant
 
 from pysdcp import Projector

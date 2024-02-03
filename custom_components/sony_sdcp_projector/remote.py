@@ -1,4 +1,5 @@
 """Remote control support for Sony SDCP Projector."""
+
 from __future__ import annotations
 
 from collections.abc import Iterable
@@ -16,11 +17,7 @@ from homeassistant.helpers.device_registry import DeviceInfo
 
 from pysdcp import Projector
 
-from .const import (
-    ATTR_MANUFACTURER,
-    ATTR_MODEL,
-    DOMAIN
-)
+from .const import ATTR_MANUFACTURER, ATTR_MODEL, DOMAIN
 
 from .commands import (
     POWER_ON,
@@ -37,10 +34,11 @@ from .commands import (
     PICTURE_POSITION_2_35,
     PICTURE_POSITION_CUSTOM_1,
     PICTURE_POSITION_CUSTOM_2,
-    PICTURE_POSITION_CUSTOM_3
+    PICTURE_POSITION_CUSTOM_3,
 )
 
 _LOGGER = logging.getLogger(__name__)
+
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -73,7 +71,7 @@ class SonySDCPRemote(RemoteEntity):
     ) -> None:
         """Initialize Sony SDCP Projector remote."""
         self._sdcp = sdcp
-        self._name = f'{ATTR_MANUFACTURER} {ATTR_MODEL}'
+        self._name = f"{ATTR_MANUFACTURER} {ATTR_MODEL}"
         self._state = None
         self._available = False
         self._attr_unique_id = unique_id
@@ -98,7 +96,7 @@ class SonySDCPRemote(RemoteEntity):
     def is_on(self) -> bool:
         """Return true if device is on."""
         return self._state
-    
+
     async def async_update(self) -> None:
         """Get the latest state from the projector."""
         _LOGGER.debug("Updating the state of '%s'", self.name)
@@ -139,7 +137,7 @@ class SonySDCPRemote(RemoteEntity):
 
     async def async_send_command(self, command: Iterable[str], **kwargs: Any) -> None:
         """Send a command to device.
-        
+
         Supported keys: power_on power_off input_hdmi1 input_hdmi2 aspect_ratio_normal
         aspect_ratio_v_stretch aspect_ratio_zoom_1_85 aspect_ratio_zoom_2_35
         aspect_ratio_stretch aspect_ratio_squeeze picture_position_1_85
@@ -148,29 +146,53 @@ class SonySDCPRemote(RemoteEntity):
         """
         defined_command_mapping = {
             POWER_ON: self.async_turn_on,
-            POWER_OFF: self.async_turn_off
+            POWER_OFF: self.async_turn_off,
         }
         command_mapping = {
             INPUT_HDMI1: partial(self._sdcp.set_HDMI_input, 1),
             INPUT_HDMI2: partial(self._sdcp.set_HDMI_input, 2),
-            ASPECT_RATIO_NORMAL: partial(self._sdcp.set_screen, "ASPECT_RATIO", "NORMAL"),
-            ASPECT_RATIO_V_STRETCH: partial(self._sdcp.set_screen, "ASPECT_RATIO", "V_STRETCH"),
-            ASPECT_RATIO_ZOOM_1_85: partial(self._sdcp.set_screen, "ASPECT_RATIO", "ZOOM_1_85"),
-            ASPECT_RATIO_ZOOM_2_35: partial(self._sdcp.set_screen, "ASPECT_RATIO", "ZOOM_2_35"),
-            ASPECT_RATIO_STRETCH: partial(self._sdcp.set_screen, "ASPECT_RATIO", "STRETCH"),
-            ASPECT_RATIO_SQUEEZE: partial(self._sdcp.set_screen, "ASPECT_RATIO", "SQUEEZE"),
-            PICTURE_POSITION_1_85: partial(self._sdcp.set_screen, "PICTURE_POSITION", "1_85"),
-            PICTURE_POSITION_2_35: partial(self._sdcp.set_screen, "PICTURE_POSITION", "2_35"),
-            PICTURE_POSITION_CUSTOM_1: partial(self._sdcp.set_screen, "PICTURE_POSITION", "CUSTOM_1"),
-            PICTURE_POSITION_CUSTOM_2: partial(self._sdcp.set_screen, "PICTURE_POSITION", "CUSTOM_2"),
-            PICTURE_POSITION_CUSTOM_3: partial(self._sdcp.set_screen, "PICTURE_POSITION", "CUSTOM_3")
+            ASPECT_RATIO_NORMAL: partial(
+                self._sdcp.set_screen, "ASPECT_RATIO", "NORMAL"
+            ),
+            ASPECT_RATIO_V_STRETCH: partial(
+                self._sdcp.set_screen, "ASPECT_RATIO", "V_STRETCH"
+            ),
+            ASPECT_RATIO_ZOOM_1_85: partial(
+                self._sdcp.set_screen, "ASPECT_RATIO", "ZOOM_1_85"
+            ),
+            ASPECT_RATIO_ZOOM_2_35: partial(
+                self._sdcp.set_screen, "ASPECT_RATIO", "ZOOM_2_35"
+            ),
+            ASPECT_RATIO_STRETCH: partial(
+                self._sdcp.set_screen, "ASPECT_RATIO", "STRETCH"
+            ),
+            ASPECT_RATIO_SQUEEZE: partial(
+                self._sdcp.set_screen, "ASPECT_RATIO", "SQUEEZE"
+            ),
+            PICTURE_POSITION_1_85: partial(
+                self._sdcp.set_screen, "PICTURE_POSITION", "1_85"
+            ),
+            PICTURE_POSITION_2_35: partial(
+                self._sdcp.set_screen, "PICTURE_POSITION", "2_35"
+            ),
+            PICTURE_POSITION_CUSTOM_1: partial(
+                self._sdcp.set_screen, "PICTURE_POSITION", "CUSTOM_1"
+            ),
+            PICTURE_POSITION_CUSTOM_2: partial(
+                self._sdcp.set_screen, "PICTURE_POSITION", "CUSTOM_2"
+            ),
+            PICTURE_POSITION_CUSTOM_3: partial(
+                self._sdcp.set_screen, "PICTURE_POSITION", "CUSTOM_3"
+            ),
         }
         repeats = kwargs[ATTR_NUM_REPEATS]
-        
+
         for _ in range(repeats):
             for single_command in command:
                 if single_command in (POWER_ON, POWER_OFF):
                     await defined_command_mapping.get(single_command)(**kwargs)
                 else:
                     _LOGGER.debug("Sending command to projector '%s'", single_command)
-                    await self.hass.async_add_executor_job(command_mapping.get(single_command))
+                    await self.hass.async_add_executor_job(
+                        command_mapping.get(single_command)
+                    )

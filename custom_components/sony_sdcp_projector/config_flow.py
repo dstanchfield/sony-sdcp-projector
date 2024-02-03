@@ -1,7 +1,7 @@
 """Config flow for Sony SDCP Projector."""
+
 from typing import Any
 
-import logging
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigFlow
@@ -9,10 +9,8 @@ from homeassistant.const import CONF_HOST
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.util.network import is_host_valid
 
-from .const import (
-    ATTR_MODEL,
-    DOMAIN
-)
+from .const import ATTR_MODEL, DOMAIN
+
 
 class SonySDCPConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Sony SDCP Projector integration."""
@@ -37,7 +35,9 @@ class SonySDCPConfigFlow(ConfigFlow, domain=DOMAIN):
                 await self.async_set_unique_id(host)
                 self._abort_if_unique_id_configured()
 
-                return self.async_create_entry(title=f'{ATTR_MODEL}  ({host})', data=user_input)
+                return self.async_create_entry(
+                    title=f"{ATTR_MODEL}  ({host})", data=user_input
+                )
 
             errors[CONF_HOST] = "invalid_host"
 

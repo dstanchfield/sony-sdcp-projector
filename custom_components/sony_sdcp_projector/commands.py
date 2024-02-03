@@ -1,4 +1,5 @@
 """Constants for the Sony SDCP Projector commands."""
+
 from typing import Final
 
 POWER_ON: Final = "power_on"
